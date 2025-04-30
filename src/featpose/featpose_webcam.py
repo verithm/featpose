@@ -14,7 +14,17 @@ class FeatPoseWebcamPublisher(FeatPosePublisher):
         self.declare_parameter("descriptor_matcher", "BF")
         self.declare_parameter(
             "camera_matrix",
-            [50.0 * 1920 / 36, 0.0, 640.0, 0.0, 50.0 * 1920 / 36, 360.0, 0.0, 0.0, 1.0],
+            [
+                50 * 1920 / 36,
+                0.0,
+                1920 / 2,
+                0.0,
+                50 * 1920 / 36,
+                1080 / 2,
+                0.0,
+                0.0,
+                1.0,
+            ],
         )
         self.declare_parameter("dist_coeffs", [0.0, 0.0, 0.0, 0.0, 0.0])
 

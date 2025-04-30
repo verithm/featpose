@@ -2,5 +2,5 @@ featpose_webcam:
   ros__parameters:
     model_type: cube
     descriptor_matcher: BF
-    camera_matrix: [2666.6667, 0.0, 640.0, 0.0, 2666.6667, 360.0, 0.0, 0.0, 1.0]
+    camera_matrix: [2666.6667, 0.0, 960.0, 0.0, 2666.6667, 540.0, 0.0, 0.0, 1.0]
     dist_coeffs: [0.0, 0.0, 0.0, 0.0, 0.0]
