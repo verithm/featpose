@@ -6,7 +6,7 @@ project](https://github.com/RHplusLab) at Yonsei Robotics Club ROBOIN.
 
 **This approach did not work well enough to use, and the project moved to
 AprilTag and color-based detection instead.** The code is kept as a record of
-what was tried and why it failed.
+what was tried.
 
 ---
 
@@ -28,26 +28,26 @@ A cube model is included for testing.
 
 ---
 
-## Why it failed
+## Why it didn't work out
 
-The method assumes each descriptor sits reliably on a known vertex of a
-textured, rigid object. The parts we actually needed to localize did not satisfy
-that. They were largely untextured plastic and metal, so ORB found few stable
-keypoints, and the ones it did find were dominated by specular highlights and
-edges that shift with viewpoint. With too few correct correspondences,
-`solvePnPRansac` either failed to find a consensus or locked onto a wrong pose
-that looked plausible for a single frame and jumped between frames.
+The failure was in the descriptor, not the pose solver. ORB is built on FAST
+corners and a binary descriptor, so it needs surfaces with enough texture to
+produce corners that reappear in the same place across viewpoints. Robot parts
+mostly do not have that. Where ORB did find keypoints, they were too few and too
+unstable for `solvePnPRansac` to settle on a consistent pose.
 
-The deeper problem was compute. The alternative was a learned 6D pose estimator,
-which we could not train or run at the time given the hardware available to the
-project. Classical features were the cheap option; they were also the wrong one
-for these objects.
+The offline model makes this worse rather than better. Tying each descriptor to a
+specific vertex assumes descriptors land on vertices and stay there — an
+assumption that only holds for objects whose texture is fixed to their geometry.
+
+A learned 6D pose estimator was tried separately, outside this package. It ran
+into a different wall: we could not secure the compute to train and run one
+within the project.
 
 Fiducial markers solved the problem instead. AprilTag supplies exactly the
-texture that ORB was missing, in a form designed for reliable pose recovery — at
-the cost of having to attach markers to the world.
-
----
+texture and known geometry that feature matching was missing, in a form designed
+for reliable pose recovery — at the cost of having to attach markers to the
+world. That, with color-based detection, is what the humanoid ended up using.
 
 ## Layout
 
